@@ -11,7 +11,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import type { AppMountParameters, CoreSetup, CoreStart, Plugin } from '@kbn/core/public';
 import type { DeveloperExamplesSetup } from '@kbn/developer-examples-plugin/public';
-
 interface SetupDeps {
   developerExamples: DeveloperExamplesSetup;
 }

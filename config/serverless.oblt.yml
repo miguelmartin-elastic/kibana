@@ -34,6 +34,9 @@ no_data_page.analyticsNoDataPageFlavor: 'serverless_observability'
 ## Disable adding the component template `.fleet_agent_id_verification-1` to every index template for each datastream for each integration
 xpack.fleet.agentIdVerificationEnabled: false
 
+# Bootstrap
+xpack.bootcamp.enabled: true
+
 ## Enable event.ingested separately because agentIdVerification is disabled
 xpack.fleet.eventIngestedEnabled: true
 
