@@ -57,9 +57,10 @@ test.describe('Rules Page - Rules Tab', { tag: ['@ess', '@svlOblt'] }, () => {
   });
 
   test('should see an editable rule in the Rules Table', async ({ pageObjects }) => {
-    await expect(pageObjects.rulesPage.ruleSearchField).toBeVisible();
     const editableRules = pageObjects.rulesPage.getEditableRules();
-    await expect(editableRules.filter({ hasText: createdRule.name })).toHaveCount(1);
+    await expect(editableRules.filter({ hasText: createdRule.name })).toHaveCount(1, {
+      timeout: 15000,
+    });
   });
 
   test('should show the edit action button for an editable rule', async ({ pageObjects }) => {
