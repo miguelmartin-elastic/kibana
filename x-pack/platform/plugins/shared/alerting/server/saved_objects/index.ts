@@ -103,7 +103,8 @@ export function setupSavedObjects(
   ruleTypeRegistry: RuleTypeRegistry,
   logger: Logger,
   isPreconfigured: (connectorId: string) => boolean,
-  getSearchSourceMigrations: () => MigrateFunctionsObject
+  getSearchSourceMigrations: () => MigrateFunctionsObject,
+  useUnifiedRulesPage: boolean = false
 ) {
   savedObjects.registerType({
     name: RULE_SAVED_OBJECT_TYPE,
@@ -121,7 +122,7 @@ export function setupSavedObjects(
       },
       onImport(ruleSavedObjects) {
         return {
-          warnings: getImportWarnings(ruleSavedObjects),
+          warnings: getImportWarnings(ruleSavedObjects, useUnifiedRulesPage),
         };
       },
       onExport(context: SavedObjectsExportTransformContext, objects: Array<SavedObject<RawRule>>) {

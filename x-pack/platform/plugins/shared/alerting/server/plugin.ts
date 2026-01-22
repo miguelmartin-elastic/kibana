@@ -395,7 +395,8 @@ export class AlertingPlugin {
       this.ruleTypeRegistry,
       this.logger,
       plugins.actions.isPreconfiguredConnector,
-      getSearchSourceMigrations
+      getSearchSourceMigrations,
+      this.config.enableExperimental.unifiedRulesPage
     );
 
     initializeApiKeyInvalidator(

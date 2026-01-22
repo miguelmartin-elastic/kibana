@@ -96,6 +96,9 @@ export const configSchema = schema.object({
   enabledRuleTypes: schema.maybe(
     schema.arrayOf(schema.string({ minLength: 1 }), { defaultValue: [] })
   ),
+  enableExperimental: schema.object({
+    unifiedRulesPage: schema.boolean({ defaultValue: false }),
+  }),
 });
 
 export type AlertingConfig = TypeOf<typeof configSchema>;

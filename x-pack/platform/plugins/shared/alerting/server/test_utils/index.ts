@@ -72,6 +72,9 @@ export function generateAlertingConfig(overwrites: Partial<AlertingConfig> = {})
       },
     },
     rulesSettings: { enabled: true, cacheInterval: 60000 },
+    enableExperimental: {
+      unifiedRulesPage: false,
+    },
     ...overwrites,
   };
 }

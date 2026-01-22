@@ -68,6 +68,9 @@ describe('createRuleRoute', () => {
     maintenanceWindow: {
       enabled: true,
     },
+    enableExperimental: {
+      unifiedRulesPage: false,
+    },
   };
   const action: RuleAction = {
     actionTypeId: 'test',

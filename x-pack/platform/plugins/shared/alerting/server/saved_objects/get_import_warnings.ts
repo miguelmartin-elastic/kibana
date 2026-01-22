@@ -8,8 +8,15 @@
 import { i18n } from '@kbn/i18n';
 import type { SavedObject, SavedObjectsImportWarning } from '@kbn/core/server';
 
+/**
+ * Generates import warnings for rules that need to be enabled after import.
+ * @param rulesSavedObjects - Array of rule saved objects being imported
+ * @param useUnifiedRulesPage - Whether to use the unified rules page URL (default: false)
+ * @returns Array of import warnings
+ */
 export function getImportWarnings(
-  rulesSavedObjects: Array<SavedObject<unknown>>
+  rulesSavedObjects: Array<SavedObject<unknown>>,
+  useUnifiedRulesPage: boolean = false
 ): SavedObjectsImportWarning[] {
   if (rulesSavedObjects.length === 0) {
     return [];
@@ -21,11 +28,16 @@ export function getImportWarnings(
       rulesSavedObjectsLength: rulesSavedObjects.length,
     },
   });
+
+  const actionPath = useUnifiedRulesPage
+    ? '/app/rules'
+    : '/app/management/insightsAndAlerting/triggersActions/rules';
+
   return [
     {
       type: 'action_required',
       message,
-      actionPath: '/app/management/insightsAndAlerting/triggersActions/rules',
+      actionPath,
       buttonLabel: GO_TO_RULES_BUTTON_LABLE,
     } as SavedObjectsImportWarning,
   ];

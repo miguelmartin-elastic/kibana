@@ -74,6 +74,49 @@ describe('getImportWarnings', () => {
     ];
     const warnings = getImportWarnings(savedObjectRules as unknown as Array<SavedObject<RawRule>>);
     expect(warnings[0].message).toBe('2 rules must be enabled after the import.');
+    expect((warnings[0] as { actionPath?: string }).actionPath).toBe(
+      '/app/management/insightsAndAlerting/triggersActions/rules'
+    );
+  });
+
+  it('uses unified rules page path when useUnifiedRulesPage is true', () => {
+    const savedObjectRules = [
+      {
+        id: '1',
+        type: RULE_SAVED_OBJECT_TYPE,
+        attributes: {
+          enabled: true,
+          name: 'rule-name1',
+          tags: ['tag-1'],
+          alertTypeId: '123',
+          consumer: 'alert-consumer',
+          schedule: { interval: '1m' },
+          actions: [],
+          params: {},
+          createdBy: 'me',
+          updatedBy: 'me',
+          apiKey: '4tndskbuhewotw4klrhgjewrt9u',
+          apiKeyOwner: 'me',
+          throttle: null,
+          notifyWhen: 'onActionGroupChange',
+          muteAll: false,
+          mutedInstanceIds: [],
+          executionStatus: {
+            status: 'active',
+            lastExecutionDate: '2020-08-20T19:23:38Z',
+            error: null,
+          },
+          scheduledTaskId: '2q5tjbf3q45twer',
+        },
+        references: [],
+      },
+    ];
+    const warnings = getImportWarnings(
+      savedObjectRules as unknown as Array<SavedObject<RawRule>>,
+      true
+    );
+    expect(warnings[0].message).toBe('1 rule must be enabled after the import.');
+    expect((warnings[0] as { actionPath?: string }).actionPath).toBe('/app/rules');
   });
 
   it('return no warning messages if no rules were imported', () => {
