@@ -21,7 +21,7 @@ import type {
 } from '@kbn/core/server';
 import { UI_SETTINGS } from '@kbn/data-plugin/server';
 import type { TimeseriesVisData } from '@kbn/vis-type-timeseries-plugin/server';
-import { DEFAULT_SPACE_ID } from '@kbn/core-spaces-common';
+import { DEFAULT_SPACE_ID } from '@kbn/spaces-plugin/common';
 import type { TSVBMetricModel } from '@kbn/metrics-data-access-plugin/common';
 import { getProjectRoutingFromRequest } from '@kbn/observability-utils-server/es/get_project_routing_from_request';
 import type { InfraConfig, InfraPluginRequestHandlerContext } from '../../../types';
@@ -170,14 +170,9 @@ export class KibanaFramework {
   public async callWithRequest(
     requestContext: InfraPluginRequestHandlerContext,
     endpoint: string,
-    rawParams: CallWithRequestParams,
+    params: CallWithRequestParams,
     request?: KibanaRequest
   ) {
-    // `requestTimeout` is a transport-level option, not part of the request
-    // body, so it must be pulled off before `params` gets spread into the
-    // Elasticsearch client call bodies below.
-    const { requestTimeout, ...paramsWithoutTimeout } = rawParams ?? {};
-    let params: CallWithRequestParams = paramsWithoutTimeout;
     const { elasticsearch, uiSettings } = await requestContext.core;
 
     const includeFrozen = await uiSettings.client.get<boolean>(UI_SETTINGS.SEARCH_INCLUDE_FROZEN);
@@ -226,7 +221,7 @@ export class KibanaFramework {
                 ...frozenIndicesParams,
                 ...projectRoutingParams,
               } as estypes.SearchRequest,
-              { signal, ...(requestTimeout ? { requestTimeout } : {}) }
+              { signal }
             ),
         });
 
